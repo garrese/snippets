@@ -31,23 +31,23 @@ public class Nullable {
 		}
 	}
 
-	public static Double sum(Number n1, Number n2) {
-		return sum(n1, n2, null);
+	public static Double sum(Number x, Number y) {
+		return sum(x, y, null);
 	}
 
-	public static Double sub(Number n1, Number n2) {
-		return sub(n1, n2, null);
+	public static Double sub(Number x, Number y) {
+		return sub(x, y, null);
 	}
 
-	public static Double sum(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.get(n1::doubleValue);
-		Double n2D = Nullable.get(n2::doubleValue);
+	public static Double sum(Number x, Number y, Double defaultValue) {
+		Double n1D = Nullable.get(x::doubleValue);
+		Double n2D = Nullable.get(y::doubleValue);
 		return biSupplier(n1D, n2D, () -> n1D + n2D, defaultValue);
 	}
 
-	public static Double sub(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.get(n1::doubleValue());
-		Double n2D = Nullable.get(n2::doubleValue());
+	public static Double sub(Number x, Number y, Double defaultValue) {
+		Double n1D = Nullable.get(x::doubleValue);
+		Double n2D = Nullable.get(y::doubleValue);
 		return biSupplier(n1D, n2D, () -> n1D - n2D, defaultValue);
 	}
 
