@@ -4,6 +4,8 @@ import java.util.function.Supplier;
 
 public class Nullable {
 
+	private Nullable() {};
+
 	public static <T> T get(Supplier<T> supplier, T defaultValue) {
 		try {
 			return supplier.get();
@@ -38,14 +40,14 @@ public class Nullable {
 	}
 
 	public static Double sum(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.get(() -> n1.doubleValue());
-		Double n2D = Nullable.get(() -> n2.doubleValue());
+		Double n1D = Nullable.get(n1::doubleValue);
+		Double n2D = Nullable.get(n2::doubleValue);
 		return biSupplier(n1D, n2D, () -> n1D + n2D, defaultValue);
 	}
 
 	public static Double sub(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.get(() -> n1.doubleValue());
-		Double n2D = Nullable.get(() -> n2.doubleValue());
+		Double n1D = Nullable.get(n1::doubleValue());
+		Double n2D = Nullable.get(n2::doubleValue());
 		return biSupplier(n1D, n2D, () -> n1D - n2D, defaultValue);
 	}
 
