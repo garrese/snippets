@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 public class Nullable {
 
-	public static <T> T m(Supplier<T> supplier, T defaultValue) {
+	public static <T> T get(Supplier<T> supplier, T defaultValue) {
 		try {
 			return supplier.get();
 		} catch (NullPointerException e) {
@@ -12,15 +12,15 @@ public class Nullable {
 		}
 	}
 
-	public static <T> T m(Supplier<T> supplier) {
-		return m(supplier, null);
+	public static <T> T get(Supplier<T> supplier) {
+		return get(supplier, null);
 	}
 
-	public static void m(Runnable procedure) {
-		m(procedure, null);
+	public static void get(Runnable procedure) {
+		get(procedure, null);
 	}
 
-	public static void m(Runnable runnable, Runnable exceptionAction) {
+	public static void get(Runnable runnable, Runnable exceptionAction) {
 		try {
 			runnable.run();
 		} catch (NullPointerException e) {
@@ -38,28 +38,28 @@ public class Nullable {
 	}
 
 	public static Double sum(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.m(() -> n1.doubleValue());
-		Double n2D = Nullable.m(() -> n2.doubleValue());
-		return supplier(n1D, n2D, () -> n1D + n2D, defaultValue);
+		Double n1D = Nullable.get(() -> n1.doubleValue());
+		Double n2D = Nullable.get(() -> n2.doubleValue());
+		return biSupplier(n1D, n2D, () -> n1D + n2D, defaultValue);
 	}
 
 	public static Double sub(Number n1, Number n2, Double defaultValue) {
-		Double n1D = Nullable.m(() -> n1.doubleValue());
-		Double n2D = Nullable.m(() -> n2.doubleValue());
-		return supplier(n1D, n2D, () -> n1D - n2D, defaultValue);
+		Double n1D = Nullable.get(() -> n1.doubleValue());
+		Double n2D = Nullable.get(() -> n2.doubleValue());
+		return biSupplier(n1D, n2D, () -> n1D - n2D, defaultValue);
 	}
 
-	public static <T> T supplier(T sum1, T sum2, Supplier<T> supplier) {
-		return supplier(sum1, sum2, supplier, null);
+	public static <T> T biSupplier(T x, T y, Supplier<T> supplier) {
+		return biSupplier(x, y, supplier, null);
 	}
 
-	public static <T> T supplier(T sum1, T sum2, Supplier<T> supplier, T defaultValue) {
-		if (sum1 == null && sum2 == null)
+	public static <T> T biSupplier(T x, T y, Supplier<T> supplier, T defaultValue) {
+		if (x == null && y == null)
 			return defaultValue;
-		if (sum1 == null)
-			return sum2;
-		if (sum2 == null)
-			return sum1;
+		if (x == null)
+			return y;
+		if (y == null)
+			return x;
 		try {
 			return supplier.get();
 		} catch (NullPointerException e) {
